@@ -1,7 +1,7 @@
 
 /* ----------------------------------------------------------------------------
  * "THE BEER-WARE LICENSE" (Revision 42):
- * <CANguru-Buch@web.de> wrote this file. As long as you retain this
+ * <CARguru-Buch@web.de> wrote this file. As long as you retain this
  * notice you can do whatever you want with this stuff. If we meet some day,
  * and you think this stuff is worth it, you can buy me a beer in return
  * Gustav Wostrack
@@ -12,7 +12,6 @@
 #define SERIAL_H
 
 #include <Arduino.h>
-
 
 // Definition der beiden Schnittstellen
 /*
@@ -30,16 +29,35 @@
 */
 
 /*SERIAL**************************************************************************************************/
+const uint8_t rx1 = GPIO_NUM_16;
+const uint8_t tx1 = GPIO_NUM_17;
+const uint8_t frameLng = 13;
+const uint8_t delimiterTrans = 0x00;
+const uint8_t data = delimiterTrans + 0x01;
+const uint8_t strng = data + 0x01;
 
-void initSerial();
-void sendString(String str, bool newline = true, bool bindent = false);
-void sendCANFrame(uint8_t *frame);
-//void displayIP(IPAddress ip);
-int serialDataAvail();
-void serialRead(uint8_t *buffer);
-bool getSerialStatus();
-void setSerialStatus(bool status);
-void transmitData();
+unsigned long baudrate = 115200;
+
+void initSerial()
+{
+  Serial1.begin(baudrate, SERIAL_8N1, rx1, tx1);
+}
+
+void displayStr(String str)
+{
+// Beginn der Übertragung
+  Serial1.write(delimiterTrans);
+// Stringübertragung
+  Serial1.write(strng);
+  Serial1.println(str);
+// Ende der Datenübertragung
+  Serial1.write(delimiterTrans);
+}
+
+void displayIP(IPAddress ip)
+{
+  displayStr("ip");
+}
 
 /*************************** End of file ****************************/
 #endif

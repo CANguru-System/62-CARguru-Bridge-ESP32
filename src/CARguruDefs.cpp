@@ -1,7 +1,7 @@
 
 #include <Arduino.h>
 #include "EEPROM.h"
-#include "CANguruDefs.h"
+#include "CARguruDefs.h"
 
 
 // Funktion stellt sicher, dass keine unerlaubten 8-Bit-Werte geladen werden können

@@ -1,7 +1,7 @@
 
 /* ----------------------------------------------------------------------------
  * "THE BEER-WARE LICENSE" (Revision 42):
- * <CANguru-Buch@web.de> wrote this file. As long as you retain this
+ * <CARguru-Buch@web.de> wrote this file. As long as you retain this
  * notice you can do whatever you want with this stuff. If we meet some day,
  * and you think this stuff is worth it, you can buy me a beer in return
  * Gustav Wostrack
@@ -10,14 +10,25 @@
 
 #include <Arduino.h>
 #include <espnow.h>
-#include <CANguruDefs.h>
-#include "CANguru.h"
+#include <CARguruDefs.h>
+#include "CARguru.h"
 //#include "utils.h"
 #include <serial2raspi.h>
 
 uint8_t slaveCnt;
 uint8_t slaveCurr;
 decoderStruct gate;
+bool bAllSlavesOnboard;
+
+void set_bAllSlavesOnboard(bool b)
+{
+  bAllSlavesOnboard = b;
+}
+
+bool get_bAllSlavesOnboard()
+{
+  return bAllSlavesOnboard;
+}
 
 // willkürlich festgelegte MAC-Adresse
 const uint8_t masterCustomMac[] = {0x30, 0xAE, 0xA4, 0x89, 0x92, 0x71};
@@ -25,7 +36,7 @@ const uint8_t masterCustomMac[] = {0x30, 0xAE, 0xA4, 0x89, 0x92, 0x71};
 slaveInfoStruct slaveInfo[maxSlaves];
 slaveInfoStruct tmpSlaveInfo;
 esp_now_peer_info_t cand;
-String ssidSLV = "CNgrSLV";
+String ssidSLV = "CRgrSLV";
 
 bool bSendLokBuffer;
 bool SYSseen;
@@ -274,7 +285,7 @@ void addSlaves()
   {
     printMac(slaveInfo[s].slave.peer_addr);
     char chs[30];
-    sprintf(chs, " -- Added Slave %d", s + 1);
+    sprintf(chs, " -- added CAR %d", s + 1);
     sendString(chs);
   }
 }
@@ -294,31 +305,6 @@ void findSlaves()
   }
 }
 
-/*
-// steuert den Registrierungsprozess der Slaves
-void espNowProc()
-{
-  if (time4Scanning == true)
-  {
-    Scan4Slaves();
-  }
-  if (time4Scanning == false && slaveCnt > 0 && waiting4Handshake == true)
-  {
-    // add slaves
-    addSlaves();
-    uint8_t Clntbuffer[CAN_FRAME_SIZE]; // buffer to hold incoming packet,
-    for (uint8_t s = 0; s < slaveCnt; s++)
-    {
-      for (uint8_t cnt = 0; cnt < macLen; cnt++)
-        Clntbuffer[cnt] = slaveInfo[s].slave.peer_addr[cnt];
-      // device-Nummer übermitteln
-      Clntbuffer[macLen] = s;
-      sendTheData(s, Clntbuffer, macLen + 1);
-    }
-    delay(50);
-  }
-}
-*/
 // Überprüft, ob alle Slaves erkannt wurden und macht dann das Handshaking
 void AllSlavesOnboard(const uint8_t *data)
 {
@@ -346,7 +332,8 @@ void AllSlavesOnboard(const uint8_t *data)
   }
   if (handshakeFinished == true)
   {
-    sendString(String(slaveCnt) + " slave(s) on board!");
+    sendString(String(slaveCnt) + " CAR(s) on board!");
+    set_bAllSlavesOnboard(true);
   }
 }
 

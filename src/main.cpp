@@ -1,7 +1,7 @@
 
 /* ----------------------------------------------------------------------------
  * "THE BEER-WARE LICENSE" (Revision 42):
- * <CANguru-Buch@web.de> wrote this file. As long as you retain this
+ * <CARguru-Buch@web.de> wrote this file. As long as you retain this
  * notice you can do whatever you want with this stuff. If we meet some day,
  * and you think this stuff is worth it, you can buy me a beer in return
  * Gustav Wostrack
@@ -15,15 +15,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "CANguruDefs.h"
+#include "CARguruDefs.h"
 #include <SPI.h>
 #include <Wire.h>
 #include <espnow.h>
-#include "CANguru.h"
-#include <AsyncTCP.h>
-#include <ESPAsyncWebServer.h>
-//#include <miniz.h>
-#include "SPIFFS.h"
+#include "CARguru.h"
 
 //#define debug
 
@@ -122,7 +118,7 @@ void proc2Clnts(uint8_t *buffer, CMD dir)
 
 //////////////// Empfangsroutinen
 
-// Behandlung der Kommandos, die der CANguru-Server aussendet
+// Behandlung der Kommandos, die der CARguru-Server aussendet
 void proc_fromMASTER2Clnt()
 {
   uint8_t UDPbuffer[CAN_FRAME_SIZE]; // buffer to hold incoming packet,
@@ -186,8 +182,8 @@ void setup()
   // start the raspiClient
 }
 
-// die Routin antwortet auf die Anfrage des CANguru-Servers mit CMD 0x88;
-// damit erhält er die IP-Adresse der CANguru-Bridge und kann dann
+// die Routin antwortet auf die Anfrage des CARguru-Servers mit CMD 0x88;
+// damit erhält er die IP-Adresse der CARguru-Bridge und kann dann
 // damit eine Verbindung aufbauen
 void proc_startSystem()
 {
@@ -202,10 +198,9 @@ void proc_startSystem()
     {
     case CALL4CONNECT:
       delay(5);
-      sendString("CANguru-Bridge " + CgVersionnmbr);
-      sendString("From (own)IP ");
-      sendString("Connected to "); // + ip2strng(tlntClnt.remoteIP()));
-      sendString("");              // + ip2strng(tlntClnt.remoteIP()));
+      sendString("CARguru-Bridge " + CgVersionnmbr);
+      sendString("looking for CARs");
+      sendString("");
       espInit();
       set_SYSseen(false);
       set_cntConfig();

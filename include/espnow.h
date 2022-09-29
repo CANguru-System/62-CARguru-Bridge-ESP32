@@ -1,7 +1,7 @@
 
 /* ----------------------------------------------------------------------------
  * "THE BEER-WARE LICENSE" (Revision 42):
- * <CANguru-Buch@web.de> wrote this file. As long as you retain this
+ * <CARguru-Buch@web.de> wrote this file. As long as you retain this
  * notice you can do whatever you want with this stuff. If we meet some day,
  * and you think this stuff is worth it, you can buy me a beer in return
  * Gustav Wostrack
@@ -89,7 +89,7 @@ uint8_t matchUID(uint8_t *buffer);
 void espInit();
 // Laden der lokomotive.cs2-Datei
 void reveiveLocFile();
-// Übertragung von Frames zum CANguru-Server zur dortigen Ausgabe
+// Übertragung von Frames zum CARguru-Server zur dortigen Ausgabe
 void printUDPCAN(uint8_t *buffer, CMD dir);
 //void sendOutTCP(uint8_t *buffer);
 void sendout2GW(uint8_t *buffer, CMD);
@@ -139,5 +139,9 @@ void sendTheData(const uint8_t slave, const uint8_t *data, size_t len);
 void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status);
 // empfängt Daten über ESPNow
 void OnDataRecv(const uint8_t *mac_addr, const uint8_t *data, int data_len);
+// sind alle Slaves (cars) gefunden?
+bool get_bAllSlavesOnboard();
+// status setzen?
+void set_bAllSlavesOnboard(bool b);
 
 #endif

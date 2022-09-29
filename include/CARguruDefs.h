@@ -1,17 +1,15 @@
 ﻿
 /* ----------------------------------------------------------------------------
  * "THE BEER-WARE LICENSE" (Revision 42):
- * <CANguru-Buch@web.de> wrote this file. As long as you retain this
+ * <CARguru-Buch@web.de> wrote this file. As long as you retain this
  * notice you can do whatever you want with this stuff. If we meet some day,
  * and you think this stuff is worth it, you can buy me a beer in return
  * Gustav Wostrack
  * ----------------------------------------------------------------------------
  */
 
-#ifndef CANguruDefs
-#define CANguruDefs
-
-#define CAN_FRAME_SIZE 13 /* maximum datagram size */
+#ifndef CARguruDefs
+#define CARguruDefs
 
 // allgemein
 #define wait_time_long 500
@@ -23,30 +21,20 @@
 #define min_char1 3
 #define bdrMonitor 115200
 
-#define opCmd       0x01
-#define hash0       0x02
-#define hash1       0x03
-#define dataLength  0x04
-#define data0       0x05
-#define data1       0x06
-#define data2       0x07
-#define data3       0x08
-#define data4       0x09
-#define data5       0x0A
-#define data6       0x0B
-#define data7       0x0C
+#define CANcmd   1
+#define hash0 2
+#define hash1 3
+#define Framelng   4
+#define data0 5
+#define data1 6
+#define data2 7
+#define data3 8
+#define data4 9
+#define data5 10
+#define data6 11
+#define data7 12
 
-// Kommunikationslinien
-enum commDir
-{
-  toBridge,
-  fromBridge,
-  toMaster,
-  fromMaster,
-  toClnt,
-  fromClnt,
-  MSGfromBridge
-};
+#define setup_done 0x47
 
 /*
  *  Gerätetypen
@@ -69,7 +57,7 @@ enum commDir
   Rest Frei								1111
 */
 
-#define UID_BASE 0x45009195ULL //CAN-UID
+#define UID_BASE  0x45009195ULL // CAN-UID
 #define maxdevice 99
 
 #define DEVTYPE_GFP 0x0000
@@ -78,8 +66,9 @@ enum commDir
 #define DEVTYPE_MS2 0x0030
 #define DEVTYPE_WDEV 0x00E0
 #define DEVTYPE_CS2 0x00FF
-#define DEVTYPE_FirstCANguru 0x004F
+#define DEVTYPE_FirstCARguru 0x004F
 #define DEVTYPE_BASE 0x0050
+#define DEVTYPE_TRAFFICLIGHT 0x0051
 #define DEVTYPE_SERVO 0x0053
 #define DEVTYPE_RM 0x0054
 #define DEVTYPE_LIGHT 0x0055
@@ -90,7 +79,7 @@ enum commDir
 #define DEVTYPE_CAR_CAR 0x005A
 #define DEVTYPE_CAR_RM 0x005B
 #define DEVTYPE_CAR_SERVO 0x005C
-#define DEVTYPE_LastCANguru 0x005F
+#define DEVTYPE_LastCARguru 0x005F
 
 #define BASE_Offset 0x01
 #define DECODER_Offset 0x02
@@ -161,6 +150,7 @@ enum commDir
 #define sendCntLokBuffer_R 0x91
 #define sendLokBuffer 0x92
 #define sendLokBuffer_R 0x93
+#define startConfig 0x94
 #define RESET_MEM 0xFE
 #define START_OTA 0xFF
 
@@ -189,7 +179,5 @@ char lowbyte2char(int num);
 uint8_t oneChar(uint16_t val, uint8_t no);
 
 uint8_t hex2dec(uint8_t h);
-
-void print_can_frame(const uint8_t *data);
 
 #endif
